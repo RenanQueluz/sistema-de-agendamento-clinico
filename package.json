@@ -1,0 +1,17 @@
+{
+  "name": "agendamento-clinico",
+  "version": "1.0.0",
+  "description": "sistema de agendamento para pacientes",
+  "main": "servidor.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Renan Queluz",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mysql2": "^3.19.0"
+  }
+}

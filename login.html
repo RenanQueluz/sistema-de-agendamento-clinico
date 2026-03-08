@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="geral">
+        <img src="src/usuario.png" height="100px" alt="img de usuario">
+        <section class="corpo">
+            <form id="login" class="formulario-login"> 
+               <input class="caixa"  type="text" placeholder= " Dr Nome:" id="nome"> <br> <br>
+               <input class="caixa" type="text" placeholder="Senha:" id="senha" ><br> <br>
+                <button class="btn-cadastrar" type="submit">Entrar</button>
+            </form>
+            <br>
+            <p class="inf">caso não possui cadastro: <a href="cadastro.html"> Cadastre-se</a> </p>
+        </section>
+    </div>
+
+    <script>
+
+        const form = document.getElementById('login')
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            try {
+                let pessoa = document.getElementById('nome').value
+                let acesso = document.getElementById('senha').value
+
+                console.log( 'entrada de informações:', pessoa, acesso)
+
+                if ((pessoa) == '' || (acesso) == '') {
+                    alert('preencha as informações')
+                    form.reset()
+                    return
+                }
+
+                const resposta = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        pessoa, acesso
+                    })
+
+                });
+
+                const dados = await resposta.json()
+                
+                if (resposta.ok) {
+                    alert('seja bem vido', pessoa)
+                    form.reset()
+                    window.location.href = "cadastro.html";
+                }
+                else{
+                    alert('senha ou nome incorreto')
+                }
+
+                
+            
+                //decisão condicional 
+            }
+            catch (error) {
+                console.log('erro ao continuar')
+                alert('Desculpe parece que estamos com problemas no servidor tente mais tarde ou reinicie a pagina')
+                form.reset()
+            }
+        })
+
+    </script>
+
+
+</body>
+
+</html>
