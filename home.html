@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>agendamento</title>
+</head>
+
+<body>
+    <div class="geral">
+        <div class="conteiner">
+            <div class="header">
+                <h1>Agendamentos do dia: </h1>
+                <p id="dataAtual"> </p>
+                <a class="link" href="agendamento.html">
+                    <img height="16px" src="src/mais.png">Novo agendamento
+                </a>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+
+    <script>
+        const hoje = new Date();
+
+        const dataCompleta = hoje.toLocaleDateString("pt-BR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
+        document.getElementById("dataAtual").textContent = dataCompleta;
+
+
+
+    </script>
+</body>
+
+</html>

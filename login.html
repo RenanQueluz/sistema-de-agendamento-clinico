@@ -13,7 +13,7 @@
         <img src="src/usuario.png" height="100px" alt="img de usuario">
         <section class="corpo">
             <form id="login" class="formulario-login"> 
-               <input class="caixa"  type="text" placeholder= " Dr Nome:" id="nome"> <br> <br>
+               <input class="caixa"  type="text" placeholder= "Nome:" id="nome"> <br> <br>
                <input class="caixa" type="text" placeholder="Senha:" id="senha" ><br> <br>
                 <button class="btn-cadastrar" type="submit">Entrar</button>
             </form>
@@ -23,7 +23,7 @@
     </div>
 
     <script>
-
+        
         const form = document.getElementById('login')
 
         form.addEventListener('submit', async (event) => {
@@ -52,20 +52,19 @@
                     })
 
                 });
-
                 const dados = await resposta.json()
                 
                 if (resposta.ok) {
-                    alert('seja bem vido', pessoa)
+                    alert('seja meuito bem vindo')
                     form.reset()
-                    window.location.href = "cadastro.html";
+                    window.location.href = "home.html";
                 }
                 else{
                     alert('senha ou nome incorreto')
+                    form.reset()
+                    return
                 }
 
-                
-            
                 //decisão condicional 
             }
             catch (error) {

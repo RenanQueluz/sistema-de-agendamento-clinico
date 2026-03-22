@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+    padding: 0; 
+}
+
+header{
+    height: 100px;
+
+}
+
+.logo-topo{
+   display: block;
+   margin: auto;
+
+}
+
+.container{
+    display: flex;
+    justify-content: center; /* centro horizontal */
+    align-items: center;     /* centro vertical */
+    height: 90vh;
+    background-color: #819bae;
+}
+
+
+.geral{
+    height:23.0rem ;
+    margin-bottom: 13%;
+    text-align: center;
+    
+}
+
+.cadastrar{
+    padding: 85px;
+    font-size: 25px;
+    text-align: center;
+}
+
+.campos{
+    height: 40px;
+    margin-right: 10%;
+    display: inline;
+    gap: 20px;
+    width: 110%;
+    margin-bottom: 5%;
+}
+
+label{
+    color: rgb(237, 234, 234);
+}
+
+p{
+    color: rgb(237, 234, 234);
+}
+
+h1{
+    font-size: 45px;
+    color: rgb(237, 234, 234);
+}
+
+.btn-cadastrar{
+    padding: 15px;
+    width: 250px;
+    margin-left: 20px;
+}

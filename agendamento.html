@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Agendamento.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <img class="logo-topo" src="src/download.png" height="150px" alt="">
+    </header>
+
+
+    <form id="form">
+        <div class="formulario">
+            <h1>cadastro de pacientes</h1>
+
+            <label>Data da consulta:</label>
+            <input type="date" id="data" name="data">
+
+            <label>Horário da consulta:</label>
+            <input type="datetime-local" id="horas" name="horario">
+
+            <label>Paciente:</label>
+            <input type="text" id="paciente" name="paciente">
+
+            <label>Telefone:</label>
+            <input type="tel" id="telefone" name="telefone">
+
+            <label>Médico responsável:</label>
+            <input type="text" id="medico" name="medico">
+
+            <label>Plano de saúde:</label>
+            <select name="plano" id="plano" class="campos">
+                <option value="">Selecione o plano</option>
+                <option value="Unimed">Unimed</option>
+                <option value="Bradesco">Bradesco Saúde</option>
+                <option value="Amil">Amil</option>
+                <option value="SulAmerica">SulAmérica</option>
+                <option value="Particular">Particular</option>
+            </select>
+
+            <button type="submit">Cadastrar paciente</button>
+        </div>
+    </form>
+
+
+    <script>
+        const formulario = document.getElementById('form')
+
+        formulario.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            try {
+
+                let pacientes = {
+
+                    data_consulta: document.getElementById('data').valeu,
+                    horario_consulta: document.getElementById('horas').valeu,
+                    nome_paciente: document.getElementById('paciente').value,
+                    contato: document.getElementById('telefone').value,
+                    nome_medico: document.getElementById('medico').value,
+                    plano_saude: document.getElementById('plano').value,
+                }
+
+                const resposta = await fetch('http://localhost:3000/paciente', {
+                    method: 'POST',
+                    headers:{
+                        'content-type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        pacientes
+                    }),
+
+                })
+
+                const resultado = await resposta.json()
+
+                if (resultado.ok){
+                    formulario.reset()
+                    alert('Novo agendamento criado')
+                }
+                else{
+                    formulario.reset()
+                    alert('Erro em cadastrar agendamento')
+                    return
+                }
+
+
+               
+
+            
+
+
+                
+               }
+
+            catch (error){
+
+         }
+    
+
+
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

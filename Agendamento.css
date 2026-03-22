@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+header{
+    height: 8.4rem;
+    background-color: aliceblue;
+}
+
+.logo-topo{
+   display: block;
+   margin: auto;
+}
+
+.formulario{
+    border: 2px solid rgb(185, 240, 244);
+    width: 23%;
+    display: flex ;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-left: 33%;
+    margin-top: 2%;
+    padding: 5%;
+    background: rgb(221, 230, 239) ;
+
+}
+
+input{
+    width: 80%;
+    padding: 5px;
+    background-color: rgb(226, 239, 239);
+
+}
+
+select{
+    width: 40%;
+    padding: 3px;
+}

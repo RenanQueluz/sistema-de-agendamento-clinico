@@ -5,9 +5,11 @@
 }
 
 body{
-    background-image: linear-gradient(to bottom, rgb(58, 150, 58), #b3aaaa);
+    background-color: #819bae;
     height: 92vh;
 }
+
+
 
 .geral{
     margin: auto;
@@ -32,14 +34,14 @@ body{
     border-top: none;
     border: none;
     border-bottom: 2px solid black;
-    background-color: #b7bcb5;
+    background-color: #c8dfea;
 }
 
 .btn-cadastrar{
     margin-left: 2.9rem;
     padding: 10px;
     width: 12.9rem;
-    background-color: rgb(101, 169, 33);
+    background-color: #96bad4;
     font-size: 15px;
     cursor: pointer;
 }
@@ -60,3 +62,6 @@ body{
     font-size: 19px;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
+
+
+

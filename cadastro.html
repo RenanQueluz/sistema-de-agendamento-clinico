@@ -1,13 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cadastro.css">
     <title>cadastro</title>
 </head>
+
 <body>
-    <h1>Cadastrar</h1>
-    
-    
+    <header>
+        <img class="logo-topo" src="src/download.png" height="150px" alt="">
+    </header>
+
+    <br>
+
+    <div class="container">
+        <div class="geral">
+            <h1>Cadastre-se</h1>
+
+            <form class="cadastrar" id="cadastrar">
+                <input type="text" class="campos" id="nome" placeholder="digite nome completo:"> <br>
+                <input type="email" class="campos" id="email" placeholder="email:"> <br>
+                <input type="text" class="campos" id="cpf" placeholder="CPF:"> <br>
+                <p>Selecione o sexo:</p>
+
+                <input type="radio" class="radio" id="masc" name="sexo" value="masculino">
+                <label for="masc">masculino</label>
+
+                <input type="radio" class="radio" id="fem" name="sexo" value="feminino">
+                <label for="fem">feminino</label> <br> <br>
+
+                <button class="btn-cadastrar">Criar usuario</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        const cadastro = document.getElementById('cadastrar')
+
+        cadastro.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            try {
+
+                let usuario = document.getElementById('nome').value
+                let email = document.getElementById('email').value
+                let chave = document.getElementById('cpf').value
+                let sexo = document.querySelector('input[name="sexo"]:checked').value;
+
+                const resposta = await fetch('http://localhost:3000/cadastro', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        usuario, email, chave, sexo
+                    })
+
+                });
+
+                const dados = await resposta.json()
+
+                if (resposta.ok) {
+                    alert('cadastro feito com sucesso')
+                    cadastro.reset()
+                    window.location.href = "home.html";
+                }
+                else {
+                    alert('erro em criar novo usuario')
+                    cadastro.reset()
+                    return
+                }
+            }
+            catch (error) {
+                console.log('erro ao continuar')
+                alert('Desculpe parece que estamos com problemas no servidor tente mais tarde ou reinicie a pagina')
+                cadastro.reset()
+            }
+        })
+
+    </script>
 </body>
+
 </html>
