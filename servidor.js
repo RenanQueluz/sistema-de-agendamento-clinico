@@ -4,7 +4,7 @@ import mysql from 'mysql2/promise'
 import  dotenv from "dotenv";
 import jwt from "jsonwebtoken"
 
-dotenv.config();
+
 
 
 
@@ -13,6 +13,7 @@ app.use(express.json())
 app.use(cors())
 
 //conexão mysql
+dotenv.config();
 const bancoDados = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -83,7 +84,20 @@ app.post('/cadastro', async (req, res) => {
 
 app.post('/paciente', async (req, res) => {
 
-    armazenamento.push(req.body)
+    const {pacientes} = req.body
+
+    console.log(req.body)
+
+    const sql = 'INSERT INTO cliente (horario, nome_paciente, contato, nome_medico, tipo, data_consulta) VALUES (?, ?, ?, ?, ?, ?)'
+
+    await bancoDados.execute(sql, [
+        pacientes.horario_consulta,
+        pacientes.nome_paciente,
+        pacientes.contato,
+        pacientes.nome_medico,
+        pacientes.tipo,
+        pacientes.data_consulta
+    ])
 
     res.status(201).json({
         mensagem: 'paciente criado',
