@@ -22,7 +22,7 @@
             <input type="date" id="data" name="data">
 
             <label>Horário da consulta:</label>
-            <input type="datetime-local" id="horas" name="horario">
+            <input type="time" id="horas" name="horario">
 
             <label>Paciente:</label>
             <input type="text" id="paciente" name="paciente">
@@ -47,28 +47,51 @@
         </div>
     </form>
 
+    <section class="buscar">
+        <h2> Buscar agendamentos:</h2>
+        <div class="containers">
+            <label for=""> Buscar agendas do dia:</label>
+            <input type="date" id="data">
+            <button onclick="buscarData()"> Buscar agendas </button>
+
+            <div class="resultado" id="resultado">
+
+            </div>
+
+        </div>
+    </section>
+
 
     <script>
+
+        //cadastro de usuario
         const formulario = document.getElementById('form')
 
         formulario.addEventListener('submit', async (event) => {
             event.preventDefault()
 
             try {
-
                 let pacientes = {
 
-                    data_consulta: document.getElementById('data').valeu,
-                    horario_consulta: document.getElementById('horas').valeu,
+                    data_consulta: document.getElementById('data').value,
+                    horario_consulta: document.getElementById('horas').value,
                     nome_paciente: document.getElementById('paciente').value,
                     contato: document.getElementById('telefone').value,
                     nome_medico: document.getElementById('medico').value,
                     plano_saude: document.getElementById('plano').value,
                 }
 
+                for (let chave in paciente) {
+                    if (!paciente[chave].trim()) {
+                        alert('Preencha todos os campos!');
+                        return;
+                        alert('Preencha todos os campos para continur')
+                        return
+                    }
+                }
                 const resposta = await fetch('http://localhost:3000/paciente', {
                     method: 'POST',
-                    headers:{
+                    headers: {
                         'content-type': 'application/json'
                     },
 
@@ -80,33 +103,59 @@
 
                 const resultado = await resposta.json()
 
-                if (resultado.ok){
+                if (resposta.ok) {
                     formulario.reset()
                     alert('Novo agendamento criado')
                 }
-                else{
+                else {
                     formulario.reset()
                     alert('Erro em cadastrar agendamento')
                     return
                 }
 
+            }
 
-               
+            catch (error) {
+                alert('parece que estamos com problema no servidor tente mais tarde')
 
-            
-
-
-                
-               }
-
-            catch (error){
-
-         }
-    
-
-
-
+            }
         });
+
+
+        //exibir pacientes cadastrados
+        
+        //em desenvolvimento...
+        async function buscarData() {
+
+            try {
+
+                const pesquisa = document.getElementById('data').value
+
+                if (pesquisa == '') {
+                    alert('coloque uma data para achar os agendamentos');
+                    return;
+                }
+
+                const buscar = await fetch(`http://localhost:3000/pesquisas?data=${pesquisa}`)
+
+                const resultado = await buscar.json()
+
+                if (resultado.ok) {
+                    document.getElementById('resultado').innerText = JSON.stringify(resultado)
+                }
+
+                else if (!resultado || resultado.length === 0) {
+                    alert('Nenhum agendamento encontrado');
+                    return;
+                }
+
+            } catch (erro) {
+                    alert('Pedimos desculpas parece que estamos com problemas no servidor tente mais tarde')
+                    buscarData.reset()
+                }
+        }
+
+
 
     </script>
 

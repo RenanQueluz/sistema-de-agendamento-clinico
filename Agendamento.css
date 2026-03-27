@@ -15,7 +15,7 @@ header{
 }
 
 .formulario{
-    border: 2px solid rgb(185, 240, 244);
+    border: 2px solid rgb(204, 234, 237);
     width: 23%;
     display: flex ;
     flex-direction: column;
@@ -27,7 +27,7 @@ header{
 
 }
 
-input{
+.formulario input{
     width: 80%;
     padding: 5px;
     background-color: rgb(226, 239, 239);
@@ -37,4 +37,45 @@ input{
 select{
     width: 40%;
     padding: 3px;
+}
+
+
+.buscar{
+    border: 2px solid green;
+    margin-top: 10.4rem ;
+    height: 47.9rem;
+}
+
+.buscar h2{
+    text-align: center;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.containers{
+    margin-left: 22.4rem;
+    margin-top: 1.2rem;
+}
+
+.containers label{
+    font-size: 20px;
+}
+
+.containers input{
+    width: 25.9rem;
+    padding: 6px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 2px;
+}
+
+.containers button{
+    padding: 5px;
+    border-radius: 12px;
+    background-color: rgb(144, 205, 242) ;
+}
+
+.containers button:hover{
+    background-color: rgb(143, 174, 183);
 }

@@ -1,11 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import mysql from 'mysql2/promise'
-import  dotenv from "dotenv";
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken"
-
-
-
 
 
 const app = express()
@@ -54,22 +51,18 @@ app.post('/login', async (req, res) => {
     } catch (erro) {
         console.error(erro);
     }
-
 })
 
 app.post('/cadastro', async (req, res) => {
 
     try {
         const { usuario, email, chave, sexo } = req.body
-
         console.log(req.body)
 
         const sql = 'INSERT INTO usuarios (nome, email, sexo, cpf) VALUES (?, ?, ?, ?)'
-
         await bancoDados.execute(sql, [usuario, email, sexo, chave])
 
         console.log(req.body)
-
         res.status(201).json({
             messagem: 'usuario criado com sucesso'
         })
@@ -84,26 +77,46 @@ app.post('/cadastro', async (req, res) => {
 
 app.post('/paciente', async (req, res) => {
 
-    const {pacientes} = req.body
+    try {
+        const pacientes = req.body.pacientes
+        console.log('requisição do body:', req.body)
 
-    console.log(req.body)
+        console.log('testando', pacientes)
 
-    const sql = 'INSERT INTO cliente (horario, nome_paciente, contato, nome_medico, tipo, data_consulta) VALUES (?, ?, ?, ?, ?, ?)'
+        const sql = 'INSERT INTO cliente (horario, nome_paciente, contato, nome_medico, tipo, data_consulta) VALUES (?, ?, ?, ?, ?, ?)'
 
-    await bancoDados.execute(sql, [
-        pacientes.horario_consulta,
-        pacientes.nome_paciente,
-        pacientes.contato,
-        pacientes.nome_medico,
-        pacientes.tipo,
-        pacientes.data_consulta
-    ])
+        await bancoDados.execute(sql, [
+            pacientes.horario_consulta,
+            pacientes.nome_paciente,
+            pacientes.contato,
+            pacientes.nome_medico,
+            pacientes.plano_saude,
+            pacientes.data_consulta
+        ])
 
-    res.status(201).json({
-        mensagem: 'paciente criado',
-        dados: armazenamento
-    })
+        res.status(201).json({
+            mensagem: 'paciente criado',
+            dados: pacientes
+        })
+    }
+    catch {
+        res.status(500).json({
+            mensagem: "Erro em acessar as informações do banco de dados"
+        })
+    }
 })
+
+app.get('/pesquisa', async (req, res) => {
+    const data = req.query.data;
+
+    const consultas = await bancoDados.query(
+        "SELECT * FROM clinente WHERE data_consulta = ?",
+        [data]
+    );
+
+    res.json(consultas);
+});
+
 
 app.listen(3000, () => {
     console.log('servidor rodando na porta 3000')
