@@ -106,15 +106,36 @@ app.post('/paciente', async (req, res) => {
     }
 })
 
-app.get('/pesquisa', async (req, res) => {
-    const data = req.query.data;
+app.get('/pesquisas', async (req, res) => {
 
-    const consultas = await bancoDados.query(
-        "SELECT * FROM clinente WHERE data_consulta = ?",
-        [data]
-    );
+    try {
 
-    res.json(consultas);
+        const data = req.query.data;
+
+        const [consultas] = await bancoDados.query(
+            "SELECT * FROM cliente WHERE data_consulta = ?",
+            [data]
+        );
+
+        // nenhum resultado
+        if (consultas.length === 0) {
+            return res.status(404).json({
+                mensagem: 'Nenhuma agenda encontrada'
+            });
+        }
+
+        // retorna dados reais
+        res.status(200).json(consultas);
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        res.status(500).json({
+            mensagem: 'Erro ao buscar agendas'
+        });
+    }
+    
 });
 
 

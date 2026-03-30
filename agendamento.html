@@ -51,8 +51,10 @@
         <h2> Buscar agendamentos:</h2>
         <div class="containers">
             <label for=""> Buscar agendas do dia:</label>
-            <input type="date" id="data">
+            <input type="date" id="data-busca">
             <button onclick="buscarData()"> Buscar agendas </button>
+            <br>
+            <br>
 
             <div class="resultado" id="resultado">
 
@@ -123,40 +125,86 @@
 
 
         //exibir pacientes cadastrados
-        
-        //em desenvolvimento...
+
+        //em desenvolvimento final...(ja esta funcionando, data para testar (23/03/2026)
+
         async function buscarData() {
 
             try {
 
-                const pesquisa = document.getElementById('data').value
+                const pesquisa = document.getElementById('data-busca').value;
 
-                if (pesquisa == '') {
-                    alert('coloque uma data para achar os agendamentos');
+                if (!pesquisa) {
+                    alert('Selecione uma data');
+
                     return;
                 }
 
-                const buscar = await fetch(`http://localhost:3000/pesquisas?data=${pesquisa}`)
+                const resposta = await fetch(
+                    `http://localhost:3000/pesquisas?data=${pesquisa}`
+                );
 
-                const resultado = await buscar.json()
+                const resultado = await resposta.json();
 
-                if (resultado.ok) {
-                    document.getElementById('resultado').innerText = JSON.stringify(resultado)
+                // erro da API
+                if (!resposta.ok) {
+                    alert('Erro ao buscar dados');
+                    return;
                 }
 
-                else if (!resultado || resultado.length === 0) {
+                // nenhum resultado encontrado
+                if (!resultado || resultado.length === 0) {
                     alert('Nenhum agendamento encontrado');
+                    document.getElementById('resultado').innerHTML = '';
                     return;
                 }
+
+                // mostrar dados
+                const divResultado = document.getElementById('resultado');
+
+                let tabela = `
+<table border="2">
+    <thead>
+        <tr>
+            <th>Horário</th>
+            <th>Paciente</th>
+            <th>Contato</th>
+            <th>Médico</th>
+            <th>Plano</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
+
+                resultado.forEach(consulta => {
+
+                    // formatar data
+                    const dataFormatada =
+                        new Date(consulta.data_consulta)
+                            .toLocaleDateString('pt-BR');
+
+                    tabela += `
+        <tr>
+            <td>${consulta.horario}</td>
+            <td>${consulta.nome_paciente}</td>
+            <td>${consulta.contato}</td>
+            <td>${consulta.nome_medico}</td>
+            <td>${consulta.tipo}</td>
+            <td>${dataFormatada}</td>
+        </tr>
+    `;
+                });
+
+                tabela += `</tbody></table>`;
+
+                divResultado.innerHTML = tabela;
 
             } catch (erro) {
-                    alert('Pedimos desculpas parece que estamos com problemas no servidor tente mais tarde')
-                    buscarData.reset()
-                }
+                console.error(erro);
+                alert('Problema no servidor. Tente novamente mais tarde.');
+            }
         }
-
-
-
     </script>
 
 
