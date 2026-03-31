@@ -43,6 +43,8 @@
                 <option value="Particular">Particular</option>
             </select>
 
+           
+
             <button type="submit">Cadastrar paciente</button>
         </div>
     </form>
@@ -52,16 +54,18 @@
         <div class="containers">
             <label for=""> Buscar agendas do dia:</label>
             <input type="date" id="data-busca">
-            <button onclick="buscarData()"> Buscar agendas </button>
+            <button class="btn-pesquisar" onclick="buscarData()"> Buscar agendas </button>
             <br>
             <br>
 
             <div class="resultado" id="resultado">
-
+                  
+                 
             </div>
 
         </div>
     </section>
+
 
 
     <script>
@@ -83,23 +87,14 @@
                     plano_saude: document.getElementById('plano').value,
                 }
 
-                for (let chave in paciente) {
-                    if (!paciente[chave].trim()) {
-                        alert('Preencha todos os campos!');
-                        return;
-                        alert('Preencha todos os campos para continur')
-                        return
-                    }
-                }
+            
                 const resposta = await fetch('http://localhost:3000/paciente', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
                     },
 
-                    body: JSON.stringify({
-                        pacientes
-                    }),
+                    body: JSON.stringify({pacientes}),
 
                 })
 
@@ -117,8 +112,9 @@
 
             }
 
-            catch (error) {
+            catch (erro) {
                 alert('parece que estamos com problema no servidor tente mais tarde')
+                console.log(erro)
 
             }
         });
@@ -131,12 +127,10 @@
         async function buscarData() {
 
             try {
-
                 const pesquisa = document.getElementById('data-busca').value;
 
                 if (!pesquisa) {
                     alert('Selecione uma data');
-
                     return;
                 }
 
@@ -148,7 +142,7 @@
 
                 // erro da API
                 if (!resposta.ok) {
-                    alert('Erro ao buscar dados');
+                    alert('nenhum usuario encontrado');
                     return;
                 }
 
@@ -169,9 +163,10 @@
             <th>Horário</th>
             <th>Paciente</th>
             <th>Contato</th>
-            <th>Médico</th>
+            <th>Médico(a)</th>
             <th>Plano</th>
             <th>Data</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -192,6 +187,20 @@
             <td>${consulta.nome_medico}</td>
             <td>${consulta.tipo}</td>
             <td>${dataFormatada}</td>
+            
+        <td>
+            <button class="edição-excluir" onclick="excluirConsulta(${consulta.id})">
+                 <img src="src/excluir.png" height="18px" alt="">
+            </button>
+
+            <button class="edição-editar" onclick="editarCosulta(${consulta.id})">
+                 <img src="src/editar.png" height="18px" alt="">
+            </button>
+
+
+            
+        </td>
+    
         </tr>
     `;
                 });

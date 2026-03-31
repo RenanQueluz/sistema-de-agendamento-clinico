@@ -2,7 +2,6 @@ import express from 'express'
 import cors from 'cors'
 import mysql from 'mysql2/promise'
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken"
 
 
 const app = express()
@@ -75,15 +74,15 @@ app.post('/cadastro', async (req, res) => {
 
 });
 
-app.post('/paciente', async (req, res) => {
+app.post('/paciente', async (req, res) => { //cadastra os pacientes
 
     try {
         const pacientes = req.body.pacientes
         console.log('requisição do body:', req.body)
 
-        console.log('testando', pacientes)
 
         const sql = 'INSERT INTO cliente (horario, nome_paciente, contato, nome_medico, tipo, data_consulta) VALUES (?, ?, ?, ?, ?, ?)'
+
 
         await bancoDados.execute(sql, [
             pacientes.horario_consulta,
@@ -94,19 +93,22 @@ app.post('/paciente', async (req, res) => {
             pacientes.data_consulta
         ])
 
-        res.status(201).json({
-            mensagem: 'paciente criado',
-            dados: pacientes
-        })
-    }
-    catch {
+
+       res.status(201).json({
+            ok: true, 
+            mensagem: 'paciente criado'
+        });
+
+    } catch (erro) {
+        console.error(erro);
         res.status(500).json({
-            mensagem: "Erro em acessar as informações do banco de dados"
-        })
+            ok: false,
+            mensagem: "Erro em acessar o banco"
+        });
     }
 })
 
-app.get('/pesquisas', async (req, res) => {
+app.get('/pesquisas', async (req, res) => { //busca os pacientes
 
     try {
 

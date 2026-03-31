@@ -70,12 +70,47 @@ select{
     margin-bottom: 2px;
 }
 
-.containers button{
+.btn-pesquisar{
     padding: 5px;
     border-radius: 12px;
     background-color: rgb(144, 205, 242) ;
 }
 
-.containers button:hover{
+.btn-pesquisar:hover{
     background-color: rgb(143, 174, 183);
+}
+
+.resultado{
+    border: 2px solid green;
+    height: 38.4rem;
+    width: 70.8rem ;
+    margin-left: -8.3rem;
+}
+
+table td, 
+table th{
+    border-color: black;
+    border: 3px solid black;
+    width: 68.9rem;
+    text-align: center;
+    background-color: rgb(216, 237, 237);
+}
+
+.edição-excluir{
+    background-color: red;
+    padding: 5px;
+    border-radius: 0px;
+}
+
+.edição-editar{
+    background-color: rgb(5, 174, 5);
+    padding: 5px;
+    border-radius: 0px;
+}
+
+.edição-editar:hover,
+.edição-excluir:hover{
+    padding: 6px;
+    
+
 }
