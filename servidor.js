@@ -4,6 +4,7 @@ import mysql from 'mysql2/promise'
 import dotenv from "dotenv";
 
 
+
 const app = express()
 app.use(express.json())
 app.use(cors())
@@ -139,6 +140,39 @@ app.get('/pesquisas', async (req, res) => { //busca os pacientes
     }
     
 });
+
+
+//deletar pacientes
+
+app.delete('/deletar/:id', async (req, res) =>{
+    try{ 
+
+    const id = req.params.id;
+
+    await bancoDados.query(
+        "DELETE FROM cliente where id = ?", [id]
+    ) 
+        
+     res.status(200).json({
+       ok: true,
+       mesagem: 'paciente deletado'
+
+    });
+
+    }
+    catch (erro){
+
+        console.error(erro)
+
+        res.status(500).json({
+            ok: false,
+            mensagem: 'erro em deletar paciente'
+
+        })
+    }
+
+   
+})
 
 
 app.listen(3000, () => {

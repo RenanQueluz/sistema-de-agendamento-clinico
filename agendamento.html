@@ -43,7 +43,7 @@
                 <option value="Particular">Particular</option>
             </select>
 
-           
+
 
             <button type="submit">Cadastrar paciente</button>
         </div>
@@ -59,8 +59,8 @@
             <br>
 
             <div class="resultado" id="resultado">
-                  
-                 
+
+
             </div>
 
         </div>
@@ -87,14 +87,14 @@
                     plano_saude: document.getElementById('plano').value,
                 }
 
-            
+
                 const resposta = await fetch('http://localhost:3000/paciente', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
                     },
 
-                    body: JSON.stringify({pacientes}),
+                    body: JSON.stringify({ pacientes }),
 
                 })
 
@@ -171,7 +171,6 @@
     </thead>
     <tbody>
 `;
-
                 resultado.forEach(consulta => {
 
                     // formatar data
@@ -189,7 +188,7 @@
             <td>${dataFormatada}</td>
             
         <td>
-            <button class="edição-excluir" onclick="excluirConsulta(${consulta.id})">
+            <button class="edição-excluir" onclick="deletarPaciente(${consulta.id})">
                  <img src="src/excluir.png" height="18px" alt="">
             </button>
 
@@ -213,6 +212,28 @@
                 console.error(erro);
                 alert('Problema no servidor. Tente novamente mais tarde.');
             }
+        }
+
+        async function deletarPaciente(id) { // função para deletar os pacientes cadastrados
+
+            try {
+                const resposta = await fetch(`http://localhost:3000/deletar/${id}`, {
+                    method: "DELETE"
+                });
+
+                const dados = await resposta.json();
+
+                if (dados.ok){
+                    alert('paciente apagado')
+                    buscarData() // vai atualizar a tabela e continuar existente
+                } else{
+                    alert('erro em deletar paciente')
+                }
+
+            } catch (erro) {
+                alert("Erro ao deletar paciente");
+            }
+
         }
     </script>
 
