@@ -41,7 +41,7 @@ select{
 
 
 .buscar{
-    border: 2px solid green;
+    border-radius: 20px ;
     margin-top: 10.4rem ;
     height: 47.9rem;
 }
@@ -81,7 +81,6 @@ select{
 }
 
 .resultado{
-    border: 2px solid green;
     height: 38.4rem;
     width: 70.8rem ;
     margin-left: -8.3rem;
