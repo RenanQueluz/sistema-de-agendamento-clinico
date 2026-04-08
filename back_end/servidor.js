@@ -95,8 +95,8 @@ app.post('/paciente', async (req, res) => { //cadastra os pacientes
         ])
 
 
-       res.status(201).json({
-            ok: true, 
+        res.status(201).json({
+            ok: true,
             mensagem: 'paciente criado'
         });
 
@@ -138,29 +138,29 @@ app.get('/pesquisas', async (req, res) => { //busca os pacientes
             mensagem: 'Erro ao buscar agendas'
         });
     }
-    
+
 });
 
 
 //deletar pacientes
 
-app.delete('/deletar/:id', async (req, res) =>{
-    try{ 
+app.delete('/deletar/:id', async (req, res) => {
+    try {
 
-    const id = req.params.id;
+        const id = req.params.id;
 
-    await bancoDados.query(
-        "DELETE FROM cliente where id = ?", [id]
-    ) 
-        
-     res.status(200).json({
-       ok: true,
-       mesagem: 'paciente deletado'
+        await bancoDados.query(
+            "DELETE FROM cliente where id = ?", [id]
+        )
 
-    });
+        res.status(200).json({
+            ok: true,
+            mesagem: 'paciente deletado'
+
+        });
 
     }
-    catch (erro){
+    catch (erro) {
 
         console.error(erro)
 
@@ -171,7 +171,53 @@ app.delete('/deletar/:id', async (req, res) =>{
         })
     }
 
+
+})
+
+app.put('/editar/:id', async (req, res) => {
+
+    try {
+
+        const id = req.params.id;
+        const {dadosAtualizados} = req.body.dadosAtualizados;
+
+        await bancoDados.query(
+            `UPDATE cliente SET
+                horario = ?,
+                nome_paciente = ?,
+                contato = ?,
+                nome_medico = ?,
+                tipo = ?,
+                data_consulta = ?
+             WHERE id = ?
+             `,
+            [
+                dadosAtualizados.horario_consulta,
+                dadosAtualizados.nome_paciente,
+                dadosAtualizados.contato,
+                dadosAtualizados.nome_medico,
+                dadosAtualizados.plano_saude,
+                dadosAtualizados.data_consulta,
+                id
+            ]
+        )
+
+        res.status(200).json({
+            ok: true,
+            menssagem: 'paciente editado'
+        })
+
+    }
+    catch (erro){
+        console.error(erro)
+        res.status(500).json({
+            ok: false,
+            menssagem: 'erro em editar paciente'
+        })
+
+    }
    
+
 })
 
 

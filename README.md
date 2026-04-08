@@ -59,6 +59,23 @@ Este projeto foi desenvolvido como parte do aprendizado em **Análise e Desenvol
 
 ---
 
+
+---
+Instalação / Como rodar
+
+
+2. Entre na pasta:
+cd "C:\Users\SeuUsuario\Desktop\Projetos\Agendamento clinico"
+
+3. Instale dependências:
+npm install
+
+4. Inicie o projeto:
+npm start
+
+5. Abra no navegador:
+http://localhost:3000
+
 👨‍💻 Autor
 
 **Renan Queluz**

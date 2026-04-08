@@ -191,7 +191,7 @@
                  <img src="src/excluir.png" height="18px" alt="">
             </button>
 
-            <button class="edição-editar" onclick="editarCosulta(${consulta.id})">
+            <button class="edição-editar" onclick="editarPaciente(${consulta.id})">
                  <img src="src/editar.png" height="18px" alt="">
             </button>
 
@@ -222,10 +222,10 @@
 
                 const dados = await resposta.json();
 
-                if (dados.ok){
+                if (dados.ok) {
                     alert('paciente apagado')
                     buscarData() // vai atualizar a tabela e continuar existente
-                } else{
+                } else {
                     alert('erro em deletar paciente')
                 }
 
@@ -234,6 +234,46 @@
             }
 
         }
+
+        async function editarPaciente(id) { //editar usuarios
+
+            try{
+                const dadosAtualizados = {
+                data_consulta: document.getElementById('data').value,
+                horario_consulta: document.getElementById('horas').value,
+                nome_paciente: document.getElementById('paciente').value,
+                contato: document.getElementById('telefone').value,
+                nome_medico: document.getElementById('medico').value,
+                plano_saude: document.getElementById('plano').value,
+            };
+
+            const resposta = await fetch(
+                `http://localhost:3000/editar/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({dadosAtualizados}),
+                }
+            );
+
+            const dados = await resposta.json();
+
+            if (dados.ok) {
+                alert("Paciente atualizado!");
+                buscarData();
+            }
+
+        }
+
+        catch(erro){
+            alert('erro em edidar pacientes')
+            buscarData()
+    
+        }
+           
+       }
     </script>
 
 
