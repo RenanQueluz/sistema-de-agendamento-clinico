@@ -15,11 +15,17 @@
                 <h1>Agendamentos do dia: </h1>
                 <p id="dataAtual"> </p>
                 <a class="link" href="agendamento.html">
-                    <img height="16px" src="src/mais.png">Novo agendamento
+                    <img height="16px" src="img/mais.png">Novo agendamento
                 </a>
             </div>
 
-            
+            <p class="valor-vazio"> </p>
+
+            <div id="tabela" class="tabela">
+
+            </div>
+
+
 
         </div>
     </div>
@@ -38,6 +44,72 @@
         document.getElementById("dataAtual").textContent = dataCompleta;
 
 
+
+        const exibirAgenda = async () => {
+
+            try {
+                const divResultado = document.getElementById('tabela');
+                const valorVazio = document.getElementById('valor-vazio');
+
+                const dataFormatada = hoje.toISOString().split('T')[0];
+
+                console.log("Data enviada:", dataCompleta);
+                
+                const resposta = await fetch(`http://localhost:3000/agenda?data=${dataFormatada}`);
+                const dados = await resposta.json();
+
+                if (dados.length > 0) {
+
+                    let tabela = `
+                <table border="2">
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Paciente</th>
+                            <th>Contato</th>
+                            <th>Médico(a)</th>
+                            <th>Plano</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                    dados.forEach(valores => {
+
+                        const dataBanco = new Date(valores.data_consulta)
+                            .toLocaleDateString("pt-BR", {
+                                weekday: "long",
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                            });
+
+                        tabela += `
+                    <tr>
+                        <td>${valores.horario}</td>
+                        <td>${valores.nome_paciente}</td>
+                        <td>${valores.contato}</td>
+                        <td>${valores.nome_medico}</td>
+                        <td>${valores.tipo}</td>
+                        <td>${dataBanco}</td>
+                    </tr>`;
+                    });
+
+                    tabela += `</tbody></table>`;
+
+                    divResultado.innerHTML = tabela;
+
+                } else {
+                    valorVazio.innerText = `Nenhuma agenda do dia ${dataCompleta} encontrada`;
+                }
+
+            } catch (erro) {
+                console.log('Erro ao buscar agenda:', erro);
+            }
+        };
+
+        exibirAgenda()
 
     </script>
 </body>

@@ -179,7 +179,7 @@ app.put('/editar/:id', async (req, res) => {
     try {
 
         const id = req.params.id;
-        const {dadosAtualizados} = req.body.dadosAtualizados;
+        const { dadosAtualizados } = req.body.dadosAtualizados;
 
         await bancoDados.query(
             `UPDATE cliente SET
@@ -208,7 +208,7 @@ app.put('/editar/:id', async (req, res) => {
         })
 
     }
-    catch (erro){
+    catch (erro) {
         console.error(erro)
         res.status(500).json({
             ok: false,
@@ -216,10 +216,38 @@ app.put('/editar/:id', async (req, res) => {
         })
 
     }
-   
+
 
 })
 
+
+app.get('/agenda', async (req, res) => {
+    try {
+        const data_hoje = req.query.data;
+
+        const [rows] = await bancoDados.query(
+            "SELECT * FROM cliente WHERE DATE(data_consulta) = ?",
+            [data_hoje]
+        );
+
+        console.log('valores retornados:', rows)
+        console.log('data', data_hoje )
+
+
+        if (rows.length === 0) {
+            return res.status(200).json([]);
+        }
+
+        res.status(200).json(rows);
+
+    } catch (erro) {
+        console.error(erro);
+
+        res.status(500).json({
+            mensagem: 'Erro ao buscar agendas'
+        });
+    }
+});
 
 app.listen(3000, () => {
     console.log('servidor rodando na porta 3000')

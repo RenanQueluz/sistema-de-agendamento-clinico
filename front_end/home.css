@@ -4,7 +4,7 @@
 }
 
 body{
-    background-image: url(src/fundo-agendamento.jpg);
+    background-image: url(img/fundo-agendamento.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -16,6 +16,7 @@ body{
     margin: auto;
     margin-top: 10%;
     padding: 3.5rem;
+    height: 34.8rem;
 }
 
 .header{
@@ -55,3 +56,4 @@ body{
 .link:hover{
     padding: 1.1% ;
 }
+
