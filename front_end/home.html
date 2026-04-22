@@ -54,7 +54,7 @@
                 const dataFormatada = hoje.toISOString().split('T')[0];
 
                 console.log("Data enviada:", dataCompleta);
-                
+
                 const resposta = await fetch(`http://localhost:3000/agenda?data=${dataFormatada}`);
                 const dados = await resposta.json();
 
@@ -70,7 +70,6 @@
                             <th>Médico(a)</th>
                             <th>Plano</th>
                             <th>Data</th>
-                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>`;
@@ -94,6 +93,8 @@
                         <td>${valores.tipo}</td>
                         <td>${dataBanco}</td>
                     </tr>`;
+
+
                     });
 
                     tabela += `</tbody></table>`;

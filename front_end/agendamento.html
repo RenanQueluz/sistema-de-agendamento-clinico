@@ -86,6 +86,13 @@
                     plano_saude: document.getElementById('plano').value,
                 }
 
+                for (let campo in pacientes) {
+                    if (!pacientes[campo]) {
+                        alert('Preencha todos os campos')
+                        return
+                    }
+                }
+
 
                 const resposta = await fetch('http://localhost:3000/paciente', {
                     method: 'POST',
@@ -187,15 +194,9 @@
             
         <td>
             <button class="edição-excluir" onclick="deletarPaciente(${consulta.id})">
-                 <img src="src/excluir.png" height="18px" alt="">
+                 <img src="img/excluir.png" height="18px" alt="" <p class="cancelar"> Cancelar</p> 
+                 
             </button>
-
-            <button class="edição-editar" onclick="editarPaciente(${consulta.id})">
-                 <img src="src/editar.png" height="18px" alt="">
-            </button>
-
-
-            
         </td>
     
         </tr>
@@ -234,45 +235,32 @@
 
         }
 
-        async function editarPaciente(id) { //editar usuarios
+       async function editarPaciente(id, dadosAtualizados) {
 
-            try{
-                const dadosAtualizados = {
-                data_consulta: document.getElementById('data').value,
-                horario_consulta: document.getElementById('horas').value,
-                nome_paciente: document.getElementById('paciente').value,
-                contato: document.getElementById('telefone').value,
-                nome_medico: document.getElementById('medico').value,
-                plano_saude: document.getElementById('plano').value,
-            };
-
-            const resposta = await fetch(
-                `http://localhost:3000/editar/${id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({dadosAtualizados}),
-                }
-            );
-
-            const dados = await resposta.json();
-
-            if (dados.ok) {
-                alert("Paciente atualizado!");
-                buscarData();
+    try {
+        const resposta = await fetch(
+            `http://localhost:3000/editar/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dadosAtualizados),
             }
+        );
 
+        const dados = await resposta.json();
+
+        if (resposta.ok) {
+            alert("Paciente atualizado!");
+            buscarData();
         }
 
-        catch(erro){
-            alert('erro em edidar pacientes')
-            buscarData()
-    
-        }
-           
-       }
+    } catch (erro) {
+        console.error(erro);
+        alert('Erro ao editar paciente');
+    }
+}
     </script>
 
 

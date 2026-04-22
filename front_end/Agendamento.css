@@ -93,11 +93,12 @@ table th{
     width: 68.9rem;
     text-align: center;
     background-color: rgb(216, 237, 237);
+    padding: 3px;
 }
 
 .edição-excluir{
     background-color: red;
-    padding: 5px;
+    padding: 3px;
     border-radius: 0px;
 }
 
@@ -109,7 +110,13 @@ table th{
 
 .edição-editar:hover,
 .edição-excluir:hover{
-    padding: 6px;
+    padding: 4px;
     
+
+}
+
+.cancelar{
+    align-items: center;
+
 
 }

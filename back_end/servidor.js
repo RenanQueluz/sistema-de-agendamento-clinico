@@ -179,7 +179,7 @@ app.put('/editar/:id', async (req, res) => {
     try {
 
         const id = req.params.id;
-        const { dadosAtualizados } = req.body.dadosAtualizados;
+        const dadosAtualizados = req.body;
 
         await bancoDados.query(
             `UPDATE cliente SET
@@ -196,7 +196,7 @@ app.put('/editar/:id', async (req, res) => {
                 dadosAtualizados.nome_paciente,
                 dadosAtualizados.contato,
                 dadosAtualizados.nome_medico,
-                dadosAtualizados.plano_saude,
+                dadosAtualizados.tipo,
                 dadosAtualizados.data_consulta,
                 id
             ]
@@ -226,7 +226,7 @@ app.get('/agenda', async (req, res) => {
         const data_hoje = req.query.data;
 
         const [rows] = await bancoDados.query(
-            "SELECT * FROM cliente WHERE DATE(data_consulta) = ?",
+            "SELECT * FROM cliente WHERE data_consulta = ?",
             [data_hoje]
         );
 
@@ -235,10 +235,14 @@ app.get('/agenda', async (req, res) => {
 
 
         if (rows.length === 0) {
-            return res.status(200).json([]);
-        }
+             return res.status(404).json({
+                mensagem: 'Nenhuma agendamento encontrado'
+            });
+        } 
 
-        res.status(200).json(rows);
+        res.status(200).json(rows)
+
+
 
     } catch (erro) {
         console.error(erro);
